@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>&lt;!-- Managed by Jenkins Job Builder --&gt;</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>7</daysToKeep>
+    <numToKeep>100</numToKeep>
+    <artifactDaysToKeep>14</artifactDaysToKeep>
+    <artifactNumToKeep>100</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>branch</name>
+          <description>this variable should be release, hotfix, or 9.1.xxx. 
+If input is 9.1.xxx then you don&apos;t need to provide
+any version info for the version parameter
+</description>
+          <defaultValue>release</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>version</name>
+          <description>a version of artifact to be copied to</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>promote_to</name>
+          <description>promote as either a release or release candidate build</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>release</string>
+              <string>release.candidate</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/usr/bin/env bash
+
+function promote_release_hotfix() {
+    if [[ ! -e $source ]]; then
+       echo $source directory does not exist!
+       exit -1
+    elif [[ ! -e $build_file ]]; then
+       echo $build_file does not exist!
+       exit -1
+    fi
+
+    if [[ ! -e $target &amp;&amp; ! -d $target ]]; then
+       sudo mkdir -p $target
+       sudo chown -R nobody.nobody $target
+    fi
+
+    if [[ ! -e &quot;$target/$build_file&quot; ]]; then
+       sudo cp -v &quot;$build_file&quot; &quot;$target/$target_file&quot;
+       sudo chown -R nobody.nobody &quot;$target/$target_file&quot;
+    fi
+}
+
+function promote_91() {
+   source_version=$(echo $branch | awk -F\. &apos;{ print $1&quot;.&quot;$2&quot;.&quot;$3 }&apos;)
+   echo &quot;Source Version= $source_version&quot;
+   source=&quot;/mnt/nightly_builds/academic.suite/continuous/$source_version&quot;
+   target=&quot;/mnt/builds/academic.suite/$promote_to/$branch&quot;
+   echo &quot;Target= $target&quot;
+   target_client=&quot;$target/client&quot;
+   
+   echo &quot;Creating folder $target_client&quot;
+   if [[ ! -e &quot;$target&quot; ]]; then
+       sudo mkdir -p &quot;$target_client&quot;
+       sudo chown -R nobody.nobody $target
+       echo &quot;&quot;
+       echo &quot;Starting the copy process.&quot;
+       echo &quot;&quot;
+       cd $source
+       echo &quot;&quot;
+       echo &quot;&quot;
+       sudo cp -v *$branch* $target
+       echo &quot;&quot;
+       echo &quot;&quot;
+       sudo cp -v ./client/*$branch* $target_client
+       echo &quot;&quot;
+       echo &quot;&quot;
+       sudo chown -R nobody.nobody $target
+   fi
+}
+
+
+source=/mnt/nightly_builds/academic.suite/continuous/$branch
+target=/mnt/builds/academic.suite/$promote_to/$version
+build_file=&quot;$source/learn-installer-$version-untested.zip&quot;
+target_file=&quot;learn-installer-$version.zip&quot;
+
+echo this account is &quot;$(whoami)&quot;
+
+if [[ -z $promote_to ]]; then
+    promote_to=release
+fi
+
+# logic to tell if branch is release, hotfix or 9.1.xxx
+if [[ $branch == &apos;release&apos; || $branch == &apos;hotfix&apos; ]]; then
+   source_version_folder=$(echo $version | perl -ne &apos;print $1 if /^(.*)-rel/&apos;)
+   echo &quot;source_version_folder= $source_version_folder&quot;
+   source=&quot;/mnt/nightly_builds/academic.suite/continuous/$branch/$source_version_folder&quot;
+   echo &quot;source directory is, $source&quot;
+   build_file=&quot;$source/learn-installer-$version-untested.zip&quot;
+   if [[ ! -e $build_file ]]; then
+       build_file_diff_name=&quot;$source/learn-installer-$version.zip&quot;
+       echo &quot;Found a build file $build_file_diff_name with different naming pattern.&quot;
+   fi
+   target=/mnt/builds/academic.suite/$promote_to/$version
+   echo &quot;target directory is, $target&quot;
+   promote_release_hotfix
+else
+   echo &quot;calling promote 91&quot;
+   promote_91
+fi
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
