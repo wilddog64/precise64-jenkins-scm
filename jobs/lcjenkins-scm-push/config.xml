@@ -1,24 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
   <actions/>
   <description>a github sync job. This job sync jenkins configuration file to github every 5 minutes&lt;!-- Managed by Jenkins Job Builder --&gt;</description>
   <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>7</daysToKeep>
+        <numToKeep>100</numToKeep>
+        <artifactDaysToKeep>14</artifactDaysToKeep>
+        <artifactNumToKeep>100</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <concurrentBuild>false</concurrentBuild>
-  <canRoam>true</canRoam>
-  <logRotator>
-    <daysToKeep>7</daysToKeep>
-    <numToKeep>100</numToKeep>
-    <artifactDaysToKeep>14</artifactDaysToKeep>
-    <artifactNumToKeep>100</artifactNumToKeep>
-  </logRotator>
-  <properties/>
-  <scm class="hudson.scm.NullSCM"/>
-  <triggers class="vector">
+  <triggers>
     <hudson.triggers.TimerTrigger>
       <spec>H/5 * * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
+  <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>cd $HOME/scm-sync-configuration/checkoutConfiguration
@@ -28,11 +37,11 @@ git push
   </builders>
   <publishers/>
   <buildWrappers>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper>
-      <colorMapName>xterm</colorMapName>
-    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
-    <com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper>
-      <user>f0a7d43f-642f-4443-a48f-c63be6f38000</user>
+    <com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper plugin="ssh-agent@1.15">
+      <credentialIds>
+        <string>f0a7d43f-642f-4443-a48f-c63be6f38000</string>
+      </credentialIds>
+      <ignoreMissing>false</ignoreMissing>
     </com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper>
   </buildWrappers>
 </project>
