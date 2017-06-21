@@ -28,11 +28,11 @@
     <hudson.search.UserSearchProperty>
       <insensitiveSearch>true</insensitiveSearch>
     </hudson.search.UserSearchProperty>
-    <hudson.security.HudsonPrivateSecurityRealm_-Details>
-      <passwordHash>#jbcrypt:$2a$10$54ruDG730.2GD8pE6DwsHuNXTV2J1Va.CElRfGuppRlC5ZJHEt8Uy</passwordHash>
-    </hudson.security.HudsonPrivateSecurityRealm_-Details>
     <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.20">
       <emailAddress>ckm.liang@gmail.com</emailAddress>
     </hudson.tasks.Mailer_-UserProperty>
+    <hudson.security.HudsonPrivateSecurityRealm_-Details>
+      <passwordHash>#jbcrypt:$2a$10$KQ4swkTSQFZFBuXwAlk86.7WOPnanAMp/reF7WHNWfVKOw.O7KQd2</passwordHash>
+    </hudson.security.HudsonPrivateSecurityRealm_-Details>
   </properties>
 </user>
