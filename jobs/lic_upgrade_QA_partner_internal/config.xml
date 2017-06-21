@@ -12,7 +12,7 @@
       <maxConcurrentTotal>1</maxConcurrentTotal>
       <throttleEnabled>true</throttleEnabled>
       <categories>
-        <string>update-qa-trigger-category</string>
+        <string>OrderedDict([('update-qa-trigger-category', True)])</string>
       </categories>
       <throttleOption>category</throttleOption>
       <configVersion>1</configVersion>
