@@ -13,6 +13,7 @@
       <throttleEnabled>true</throttleEnabled>
       <categories>
         <string>cat1</string>
+        <string>cat2</string>
       </categories>
       <throttleOption>category</throttleOption>
       <configVersion>1</configVersion>
