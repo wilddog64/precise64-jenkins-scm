@@ -51,6 +51,11 @@
 58da687cf175c
 </defaultValue>
         </hudson.model.TextParameterDefinition>
+        <org.jvnet.jenkins.plugins.nodelabelparameter.LabelParameterDefinition>
+          <name>mesos-lcjenkins</name>
+          <description/>
+          <defaultValue/>
+        </org.jvnet.jenkins.plugins.nodelabelparameter.LabelParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
