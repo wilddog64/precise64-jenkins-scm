@@ -29,14 +29,14 @@
     <org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty plugin="display-url-api@2.0">
       <providerId>default</providerId>
     </org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty>
-    <hudson.security.HudsonPrivateSecurityRealm_-Details>
-      <passwordHash>#jbcrypt:$2a$10$jtILzzKvsydMV7KJ/TGKUu4mbj64lCiW7Ibv4BXroee5c4UoiIoSK</passwordHash>
-    </hudson.security.HudsonPrivateSecurityRealm_-Details>
     <jenkins.security.LastGrantedAuthoritiesProperty>
       <roles>
         <string>authenticated</string>
       </roles>
       <timestamp>1497892374100</timestamp>
     </jenkins.security.LastGrantedAuthoritiesProperty>
+    <hudson.security.HudsonPrivateSecurityRealm_-Details>
+      <passwordHash>#jbcrypt:$2a$10$oGac4h0aN9HkjXXjYrb/mOcCJQRnAwjHVC53rHMv9xPvTGZ31rlNa</passwordHash>
+    </hudson.security.HudsonPrivateSecurityRealm_-Details>
   </properties>
 </user>
